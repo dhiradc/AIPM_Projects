@@ -1,0 +1,251 @@
+# Task List: AI-Powered Downtime Notification Mailing System
+
+Based on PRD: `prd/prd-ai-powered-downtime-notification-mailing-system.md`
+
+## Relevant Files
+
+- `src/main.py` - Main entry point for the application
+- `src/config/config.py` - Configuration management and environment variables
+- `src/config/config.example.yaml` - Example configuration file template
+- `src/sharepoint/sharepoint_client.py` - SharePoint API integration for file access
+- `src/sharepoint/sharepoint_client_test.py` - Unit tests for SharePoint client
+- `src/excel/excel_reader.py` - Excel file reading and parsing logic
+- `src/excel/excel_reader_test.py` - Unit tests for Excel reader
+- `src/date_utils/date_calculator.py` - Date range calculation utilities (Monday to next-to-next Sunday)
+- `src/date_utils/date_calculator_test.py` - Unit tests for date calculations
+- `src/matching/standardized_text_matcher.py` - Text matching logic for application combinations
+- `src/matching/standardized_text_matcher_test.py` - Unit tests for text matcher
+- `src/email_parser/email_file_reader.py` - Email file parsing (.eml, .msg, .mbox formats)
+- `src/email_parser/email_file_reader_test.py` - Unit tests for email file reader
+- `src/nlp/extraction_service.py` - NLP-based information extraction from email content
+- `src/nlp/date_extractor.py` - Date extraction from natural language
+- `src/nlp/system_name_extractor.py` - System/application name extraction
+- `src/nlp/description_extractor.py` - Downtime description extraction
+- `src/nlp/extraction_service_test.py` - Unit tests for NLP extraction
+- `src/email_template/email_generator.py` - HTML email template generation with color coding
+- `src/email_template/table_formatter.py` - Table formatting with color coding logic
+- `src/email_template/email_generator_test.py` - Unit tests for email generation
+- `src/email_service/email_delivery.py` - Email service integration for draft folder delivery
+- `src/email_service/email_delivery_test.py` - Unit tests for email delivery
+- `src/scheduler/job_scheduler.py` - Scheduling system for Monday automation
+- `src/scheduler/job_scheduler_test.py` - Unit tests for scheduler
+- `src/error_handling/error_handler.py` - Error handling with "no action" approach
+- `src/error_handling/logger.py` - Logging configuration and utilities
+- `src/utils/file_validator.py` - File format and structure validation
+- `src/utils/file_validator_test.py` - Unit tests for file validation
+- `src/models/downtime_entry.py` - Data models for downtime entries
+- `src/models/excel_row.py` - Data models for Excel row data
+- `src/models/extracted_entry.py` - Data models for NLP-extracted entries
+- `requirements.txt` - Python dependencies (if using Python)
+- `package.json` - Node.js dependencies (if using Node.js)
+- `README.md` - Project documentation and setup instructions
+- `.env.example` - Example environment variables file
+- `tests/integration/integration_test.py` - End-to-end integration tests
+- `tests/fixtures/sample_excel.xlsx` - Sample Excel file for testing
+- `tests/fixtures/sample_email.eml` - Sample email file for testing
+- `tests/fixtures/standardized_text.txt` - Sample standardized text file for testing
+
+### Notes
+
+- Unit tests should typically be placed alongside the code files they are testing (e.g., `excel_reader.py` and `excel_reader_test.py` in the same directory).
+- Use appropriate testing framework for the chosen language (e.g., `pytest` for Python, `jest` for Node.js).
+- Configuration files should be stored securely and not committed to version control with sensitive credentials.
+- Use environment variables or secure credential storage (e.g., Azure Key Vault, AWS Secrets Manager) for authentication credentials.
+
+## Tasks
+
+- [ ] 1.0 Project Setup and Infrastructure
+  - [ ] 1.1 Create project directory structure (src/, tests/, config/, docs/)
+  - [ ] 1.2 Initialize version control repository and add .gitignore file
+  - [ ] 1.3 Choose programming language and framework (Python/Node.js/Java)
+  - [ ] 1.4 Set up dependency management file (requirements.txt, package.json, or pom.xml)
+  - [ ] 1.5 Install and configure development tools (IDE, linter, formatter)
+  - [ ] 1.6 Create README.md with project overview and setup instructions
+  - [ ] 1.7 Set up testing framework (pytest, jest, or JUnit)
+  - [ ] 1.8 Create .env.example file with required environment variable templates
+  - [ ] 1.9 Set up logging framework and configuration
+  - [ ] 1.10 Create basic project structure for modules (sharepoint/, excel/, nlp/, email_service/, etc.)
+
+- [ ] 2.0 SharePoint Integration and File Access
+  - [ ] 2.1 Research and select SharePoint API/library (Office365-REST-Python-Client, @pnp/sp, etc.)
+  - [ ] 2.2 Implement SharePoint authentication mechanism (service account, OAuth, API key)
+  - [ ] 2.3 Create SharePointClient class with connection methods
+  - [ ] 2.4 Implement method to read Excel file from SharePoint location
+  - [ ] 2.5 Implement method to list email files (.eml, .msg, .mbox) from SharePoint folder
+  - [ ] 2.6 Implement method to read email files from SharePoint location
+  - [ ] 2.7 Implement method to read standardized text file from shared location
+  - [ ] 2.8 Implement method to read mailing list text file from SharePoint
+  - [ ] 2.9 Add error handling for SharePoint connection failures
+  - [ ] 2.10 Implement read-only access enforcement (no write operations)
+  - [ ] 2.11 Add unit tests for SharePoint client methods
+  - [ ] 2.12 Add integration tests with mock SharePoint server
+
+- [ ] 3.0 Excel File Reading and Processing
+  - [ ] 3.1 Install Excel reading library (openpyxl for Python, xlsx for Node.js, Apache POI for Java)
+  - [ ] 3.2 Create ExcelReader class with file reading methods
+  - [ ] 3.3 Implement method to read column B (date information) from Excel file
+  - [ ] 3.4 Implement method to read columns I, J, K, L, M (application indicators with "X" marks)
+  - [ ] 3.5 Implement method to read column N (standard descriptions)
+  - [ ] 3.6 Create data model class for Excel row data (date, applications, description)
+  - [ ] 3.7 Implement validation for Excel file structure (required columns present)
+  - [ ] 3.8 Implement date format validation for column B
+  - [ ] 3.9 Add error handling for corrupted or unreadable Excel files
+  - [ ] 3.10 Implement read-only file access (no modifications)
+  - [ ] 3.11 Add unit tests for Excel reading functionality
+  - [ ] 3.12 Create test fixtures with sample Excel files
+
+- [ ] 4.0 Date Range Calculation and Filtering
+  - [ ] 4.1 Create DateCalculator utility class
+  - [ ] 4.2 Implement method to determine current Monday (or most recent Monday if today is not Monday)
+  - [ ] 4.3 Implement method to calculate next-to-next Sunday (15 days from start Monday)
+  - [ ] 4.4 Implement timezone handling logic (use server timezone or configured timezone)
+  - [ ] 4.5 Create method to check if a date falls within the calculated date range (inclusive)
+  - [ ] 4.6 Implement method to determine week classification (current week, next week, or other)
+  - [ ] 4.7 Implement method to filter Excel rows by date range
+  - [ ] 4.8 Add logic to handle week boundaries correctly
+  - [ ] 4.9 Implement validation to ensure processing only occurs on Mondays
+  - [ ] 4.10 Add unit tests for date calculation logic with various scenarios
+  - [ ] 4.11 Add edge case tests (month boundaries, year boundaries, leap years)
+
+- [ ] 5.0 Standardized Text Matching System
+  - [ ] 5.1 Create StandardizedTextMatcher class
+  - [ ] 5.2 Implement method to read standardized text file from shared location
+  - [ ] 5.3 Implement parser to extract I, J, K, L, M combinations and corresponding N descriptions
+  - [ ] 5.4 Create data structure to store mapping (combination → description)
+  - [ ] 5.5 Implement exact matching algorithm for application combinations (case-sensitive or case-insensitive)
+  - [ ] 5.6 Implement method to match Excel row combinations (I, J, K, L, M) against standardized text
+  - [ ] 5.7 Implement method to populate column N based on match result
+  - [ ] 5.8 Implement flagging mechanism for unmatched combinations
+  - [ ] 5.9 Apply same matching logic to NLP-extracted application combinations
+  - [ ] 5.10 Add error handling for missing or malformed standardized text file
+  - [ ] 5.11 Add unit tests for text matching with various combination scenarios
+  - [ ] 5.12 Create test fixtures with sample standardized text files
+
+- [ ] 6.0 Email File Reading and Parsing
+  - [ ] 6.1 Install email parsing libraries (email.parser for Python, mailparser for Node.js, etc.)
+  - [ ] 6.2 Create EmailFileReader class for reading email files
+  - [ ] 6.3 Implement parser for .eml file format
+  - [ ] 6.4 Implement parser for .msg file format (if needed)
+  - [ ] 6.5 Implement parser for .mbox file format (if needed)
+  - [ ] 6.6 Implement method to extract email body content (plain text and HTML)
+  - [ ] 6.7 Implement method to extract email metadata (sender, subject, date received)
+  - [ ] 6.8 Add logic to handle email attachments (extract if they contain downtime information)
+  - [ ] 6.9 Implement method to identify email files in SharePoint folder
+  - [ ] 6.10 Add error handling for unreadable or corrupted email files
+  - [ ] 6.11 Add unit tests for email file parsing with various formats
+  - [ ] 6.12 Create test fixtures with sample email files (.eml, .msg)
+
+- [ ] 7.0 NLP-Based Information Extraction
+  - [ ] 7.1 Research and select NLP library/service (spaCy, NLTK, Transformers, or cloud NLP APIs)
+  - [ ] 7.2 Set up NLP service/client (install libraries or configure API credentials)
+  - [ ] 7.3 Create ExtractionService class to coordinate NLP extraction
+  - [ ] 7.4 Implement DateExtractor class to extract dates from natural language
+  - [ ] 7.5 Implement method to parse various date formats ("Monday, January 15", "1/15/2024", "next Monday")
+  - [ ] 7.6 Implement date normalization to match Excel date format
+  - [ ] 7.7 Implement SystemNameExtractor class to identify system/application names
+  - [ ] 7.8 Implement method using named entity recognition or pattern matching for system names
+  - [ ] 7.9 Create DescriptionExtractor class to extract downtime descriptions and reasons
+  - [ ] 7.10 Implement method to map extracted information to Excel columns B through N equivalent format
+  - [ ] 7.11 Create ExtractedEntry data model class
+  - [ ] 7.12 Implement method to extract information equivalent to columns I, J, K, L, M indicators
+  - [ ] 7.13 Add confidence scoring for NLP extractions
+  - [ ] 7.14 Implement filtering based on confidence thresholds
+  - [ ] 7.15 Add error handling for NLP extraction failures
+  - [ ] 7.16 Add unit tests for NLP extraction with sample email content
+  - [ ] 7.17 Create test fixtures with various email formats and language styles
+
+- [ ] 8.0 Email Template Generation and Formatting
+  - [ ] 8.1 Create EmailGenerator class for template generation
+  - [ ] 8.2 Create HTML email template structure with proper DOCTYPE and meta tags
+  - [ ] 8.3 Implement TableFormatter class for table generation
+  - [ ] 8.4 Implement method to create HTML table with columns: Date, Applications, Description
+  - [ ] 8.5 Implement color coding logic (light green #90EE90 for current week, deep green #006400 for next week)
+  - [ ] 8.6 Implement method to apply color coding to table rows based on week classification
+  - [ ] 8.7 Create method to generate email subject line in format: "Updates from [Month Day Year] to [Month Day Year]"
+  - [ ] 8.8 Implement method to merge Excel data and email-extracted data into single unified table
+  - [ ] 8.9 Add support for optional introductory text in email body
+  - [ ] 8.10 Add support for optional closing text in email body
+  - [ ] 8.11 Implement inline CSS styling for email client compatibility
+  - [ ] 8.12 Ensure HTML formatting supports table rendering and color coding in email clients
+  - [ ] 8.13 Add unit tests for email template generation with various data combinations
+  - [ ] 8.14 Create test fixtures to verify email rendering in different email clients
+
+- [ ] 9.0 Email Delivery Integration
+  - [ ] 9.1 Research and select email service integration method (Exchange API, Office 365 API, Gmail API, SMTP)
+  - [ ] 9.2 Implement email service authentication mechanism
+  - [ ] 9.3 Create EmailDelivery class for email operations
+  - [ ] 9.4 Implement method to read mailing list file (recipient addresses and group mailbox address)
+  - [ ] 9.5 Implement method to push email to draft folder of group mailbox
+  - [ ] 9.6 Implement method to ensure email formatting is correct for email client display
+  - [ ] 9.7 Add error handling for email service unavailability
+  - [ ] 9.8 Implement "no action" approach when email service is unavailable
+  - [ ] 9.9 Add unit tests for email delivery with mock email service
+  - [ ] 9.10 Create integration tests with test email account
+
+- [ ] 10.0 Automation and Scheduling System
+  - [ ] 10.1 Create JobScheduler class for scheduling automation
+  - [ ] 10.2 Implement scheduler mechanism (cron job, Windows Task Scheduler, or scheduling library)
+  - [ ] 10.3 Implement logic to trigger execution every Monday
+  - [ ] 10.4 Implement validation to ensure processing only occurs on Mondays
+  - [ ] 10.5 Implement continuous running capability until manually aborted
+  - [ ] 10.6 Implement graceful shutdown mechanism for manual abort
+  - [ ] 10.7 Add logic to handle system restarts gracefully (resume scheduling after restart)
+  - [ ] 10.8 Implement method to scan SharePoint folder for email files during weekly generation
+  - [ ] 10.9 Create main application entry point that orchestrates all components
+  - [ ] 10.10 Implement background process capability (daemon/service mode)
+  - [ ] 10.11 Add unit tests for scheduler logic
+  - [ ] 10.12 Create integration tests for full automation cycle
+
+- [ ] 11.0 Error Handling and Logging
+  - [ ] 11.1 Create ErrorHandler class implementing "no action" approach
+  - [ ] 11.2 Implement error handling for missing Excel file (no email generation, no alerts)
+  - [ ] 11.3 Implement error handling for corrupted Excel file (no email generation, no alerts)
+  - [ ] 11.4 Implement error handling for missing standardized text file (no email generation, no alerts)
+  - [ ] 11.5 Implement error handling for missing mailing list file (no email generation, no alerts)
+  - [ ] 11.6 Implement error handling for email service unavailability (no email generation, no alerts)
+  - [ ] 11.7 Implement error handling when no items found in date range (no email generation)
+  - [ ] 11.8 Implement error handling for NLP extraction failures (continue with Excel data if available)
+  - [ ] 11.9 Create Logger class for error logging for debugging purposes
+  - [ ] 11.10 Implement logging configuration (log levels, file location, rotation)
+  - [ ] 11.11 Add structured logging with context (timestamps, component, error type)
+  - [ ] 11.12 Ensure logs are stored securely and not exposed to users
+  - [ ] 11.13 Add unit tests for error handling scenarios
+  - [ ] 11.14 Add integration tests for error scenarios
+
+- [ ] 12.0 Configuration Management
+  - [ ] 12.1 Create Config class for configuration management
+  - [ ] 12.2 Implement environment variable loading
+  - [ ] 12.3 Create configuration file template (YAML, JSON, or INI format)
+  - [ ] 12.4 Implement secure credential storage mechanism (environment variables, key vault, secrets manager)
+  - [ ] 12.5 Add configuration for SharePoint connection details (URL, authentication method)
+  - [ ] 12.6 Add configuration for email service details (provider, credentials, group mailbox)
+  - [ ] 12.7 Add configuration for file paths (Excel file, standardized text file, mailing list file)
+  - [ ] 12.8 Add configuration for NLP service (library/service selection, API keys if using cloud)
+  - [ ] 12.9 Add configuration for color codes (light green, deep green hex values)
+  - [ ] 12.10 Add configuration for date/timezone settings
+  - [ ] 12.11 Add configuration for logging settings (level, file location)
+  - [ ] 12.12 Create config.example.yaml with all required configuration options
+  - [ ] 12.13 Add validation for required configuration values
+  - [ ] 12.14 Add unit tests for configuration loading and validation
+
+- [ ] 13.0 Testing and Validation
+  - [ ] 13.1 Create test directory structure (unit/, integration/, fixtures/)
+  - [ ] 13.2 Write unit tests for all core components (Excel reader, date calculator, text matcher, etc.)
+  - [ ] 13.3 Write unit tests for NLP extraction components
+  - [ ] 13.4 Write unit tests for email generation and formatting
+  - [ ] 13.5 Create integration test for full workflow (Excel reading → filtering → email generation)
+  - [ ] 13.6 Create integration test for email extraction workflow (email reading → NLP → email generation)
+  - [ ] 13.7 Create integration test for combined workflow (Excel + email extraction → unified email)
+  - [ ] 13.8 Create test fixtures with sample Excel files
+  - [ ] 13.9 Create test fixtures with sample email files
+  - [ ] 13.10 Create test fixtures with sample standardized text files
+  - [ ] 13.11 Create test fixtures with sample mailing list files
+  - [ ] 13.12 Write validation tests for date range filtering accuracy
+  - [ ] 13.13 Write validation tests for color coding logic (current week, next week)
+  - [ ] 13.14 Write validation tests for text matching accuracy
+  - [ ] 13.15 Write validation tests for NLP extraction accuracy
+  - [ ] 13.16 Write validation tests for email template HTML formatting
+  - [ ] 13.17 Create end-to-end test simulating full Monday automation cycle
+  - [ ] 13.18 Create test for error scenarios (missing files, service unavailability)
+  - [ ] 13.19 Set up continuous integration (CI) pipeline for automated testing
+  - [ ] 13.20 Document test coverage requirements and achieve minimum coverage threshold

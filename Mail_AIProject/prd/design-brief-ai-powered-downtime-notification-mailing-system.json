@@ -1,0 +1,309 @@
+{
+  "meta": {
+    "version": "1.0",
+    "date": "2024-01-01",
+    "locale": "en-US",
+    "brand": "Internal Operations",
+    "design_system": {
+      "source": "email_template",
+      "path": "email-templates/",
+      "tokens_path": "tokens/email-tokens.json",
+      "components_path": "components/email-components.json"
+    },
+    "sources": ["prd/prd-ai-powered-downtime-notification-mailing-system.md"]
+  },
+  "purpose": "Automate weekly downtime notification email generation with consistent formatting, color-coded date ranges, and AI-powered last-minute entry integration to ensure all users receive timely, accurate system downtime information.",
+  "audience": {
+    "primary": "System users who need to plan tasks around system downtimes",
+    "secondary": "Operations managers, product support assistants, system administrators",
+    "personas": ["Email Recipient", "Operations Manager", "Product Support Assistant", "System Administrator"],
+    "context": "Weekly email notifications received every Monday via email client (desktop/mobile)"
+  },
+  "tone": "Professional, clear, informative, and actionable. Emphasize clarity and urgency without alarm.",
+  "brand_voice": {
+    "keywords": ["clear", "professional", "informative", "reliable", "accessible"],
+    "dos": [
+      "Use clear, concise language",
+      "Emphasize dates and system names prominently",
+      "Use color coding to distinguish time periods",
+      "Ensure information is scannable and easy to understand",
+      "Maintain consistent formatting across all emails"
+    ],
+    "donts": [
+      "Use technical jargon without explanation",
+      "Overwhelm with too much information",
+      "Use ambiguous date references",
+      "Create cluttered or hard-to-read layouts",
+      "Assume users know system names or abbreviations"
+    ]
+  },
+  "variables": {
+    "collections": {
+      "color": {
+        "semantic": {
+          "bg/default": "#FFFFFF",
+          "bg/current_week": "#90EE90",
+          "bg/next_week": "#006400",
+          "text/primary": "#1A1A1A",
+          "text/secondary": "#525252",
+          "text/header": "#000000",
+          "border/table": "#E5E5E5",
+          "accent/info": "#0066CC"
+        },
+        "neutral": {
+          "50": "#FAFAFA",
+          "100": "#F5F5F5",
+          "200": "#E5E5E5",
+          "300": "#D4D4D4",
+          "500": "#737373",
+          "700": "#404040",
+          "900": "#171717"
+        }
+      },
+      "typography": {
+        "font_family": {
+          "primary": "Arial, Helvetica, sans-serif",
+          "fallback": "sans-serif"
+        },
+        "sizes": {
+          "xs": 12,
+          "sm": 14,
+          "md": 16,
+          "lg": 18,
+          "xl": 20,
+          "2xl": 24
+        },
+        "weights": {
+          "regular": 400,
+          "medium": 500,
+          "semibold": 600,
+          "bold": 700
+        },
+        "line_height": {
+          "tight": 1.2,
+          "normal": 1.5,
+          "relaxed": 1.75
+        }
+      },
+      "spacing": {
+        "scale": {
+          "0": 0,
+          "1": 4,
+          "2": 8,
+          "3": 12,
+          "4": 16,
+          "6": 24,
+          "8": 32,
+          "12": 48,
+          "16": 64
+        }
+      },
+      "radius": {
+        "none": 0,
+        "sm": 2,
+        "md": 4,
+        "lg": 8
+      }
+    }
+  },
+  "components": [
+    {
+      "name": "EmailContainer",
+      "library_ref": "Email/Container",
+      "variants": {
+        "width": ["600px", "max-width"],
+        "padding": ["spacing.4", "spacing.6"]
+      },
+      "props": {
+        "maxWidth": "600px",
+        "padding": "spacing.4",
+        "backgroundColor": "color.semantic.bg/default",
+        "fontFamily": "typography.font_family.primary"
+      }
+    },
+    {
+      "name": "EmailHeader",
+      "library_ref": "Email/Header",
+      "props": {
+        "paddingBottom": "spacing.4",
+        "borderBottom": "1px solid color.semantic.border/table",
+        "fontSize": "typography.sizes.lg",
+        "fontWeight": "typography.weights.semibold",
+        "color": "color.semantic.text/header"
+      },
+      "content_guidelines": {
+        "subject_format": "Updates from [Month Day Year] to [Month Day Year]",
+        "max_length": 100
+      }
+    },
+    {
+      "name": "DowntimeTable",
+      "library_ref": "Email/Table",
+      "variants": {
+        "row_type": ["current_week", "next_week", "default"],
+        "border_style": ["solid", "none"]
+      },
+      "props": {
+        "width": "100%",
+        "borderCollapse": "collapse",
+        "cellPadding": "spacing.2",
+        "cellSpacing": 0,
+        "border": "1px solid color.semantic.border/table"
+      },
+      "data_bindings": {
+        "date": "string (MM/DD/YYYY format)",
+        "applications": "string (I, J, K, L, M indicators)",
+        "description": "string (from column N or extracted)"
+      },
+      "row_styles": {
+        "current_week": {
+          "backgroundColor": "color.semantic.bg/current_week"
+        },
+        "next_week": {
+          "backgroundColor": "color.semantic.bg/next_week",
+          "color": "#FFFFFF"
+        },
+        "default": {
+          "backgroundColor": "color.semantic.bg/default"
+        }
+      }
+    },
+    {
+      "name": "TableHeader",
+      "library_ref": "Email/TableHeader",
+      "props": {
+        "backgroundColor": "color.neutral.200",
+        "fontWeight": "typography.weights.semibold",
+        "padding": "spacing.3",
+        "textAlign": "left",
+        "borderBottom": "2px solid color.semantic.border/table"
+      }
+    },
+    {
+      "name": "TableRow",
+      "library_ref": "Email/TableRow",
+      "props": {
+        "padding": "spacing.2",
+        "borderBottom": "1px solid color.semantic.border/table"
+      },
+      "interactions": {
+        "hover": {
+          "enabled": false,
+          "note": "Email clients have limited hover support"
+        }
+      }
+    },
+    {
+      "name": "EmailFooter",
+      "library_ref": "Email/Footer",
+      "props": {
+        "paddingTop": "spacing.4",
+        "marginTop": "spacing.6",
+        "borderTop": "1px solid color.semantic.border/table",
+        "fontSize": "typography.sizes.sm",
+        "color": "color.semantic.text/secondary"
+      }
+    }
+  ],
+  "patterns": [
+    {
+      "name": "Email/Layout",
+      "structure": "Header → Optional Intro → Table → Optional Footer",
+      "max_width": "600px",
+      "padding": "spacing.4",
+      "breakpoints": {
+        "mobile": "320px",
+        "tablet": "600px",
+        "desktop": "600px"
+      }
+    },
+    {
+      "name": "Table/Responsive",
+      "approach": "Stack on mobile, horizontal scroll on small screens",
+      "min_width": "320px"
+    }
+  ],
+  "channels": {
+    "email": {
+      "clients": ["Outlook", "Gmail", "Apple Mail", "Mobile clients"],
+      "format": "HTML with inline CSS",
+      "fallback": "Plain text version",
+      "compatibility": "HTML 4.01 / XHTML 1.0 Transitional",
+      "css_support": "Inline styles only, limited CSS3",
+      "testing_required": ["Outlook 2016+", "Gmail web", "Apple Mail", "iOS Mail", "Android Gmail"]
+    }
+  },
+  "deliverables": [
+    {
+      "name": "HTML Email Template",
+      "key_elements": ["Header with date range", "Color-coded downtime table", "Responsive layout", "Accessible markup"],
+      "priority": "high"
+    },
+    {
+      "name": "Plain Text Fallback",
+      "key_elements": ["Same information as HTML", "ASCII table format", "Clear date formatting"],
+      "priority": "medium"
+    },
+    {
+      "name": "Email Preview/Test Suite",
+      "key_elements": ["Multiple email client previews", "Color accuracy verification", "Responsive testing"],
+      "priority": "high"
+    }
+  ],
+  "a11y": {
+    "contrast": "WCAG 2.2 AA",
+    "min_contrast_ratio": {
+      "normal_text": 4.5,
+      "large_text": 3.0,
+      "deep_green_bg": "Ensure white text meets contrast on #006400"
+    },
+    "alt_text": "Not applicable (no images)",
+    "semantic_html": true,
+    "table_headers": true,
+    "screen_reader": {
+      "table_summary": "Downtime notification table with date, applications, and description columns",
+      "row_announcement": "Announce week type (current/next) for each row"
+    },
+    "keyboard_navigation": "N/A (email reading context)"
+  },
+  "naming": {
+    "components": "PascalCase",
+    "variants": "kebab-case",
+    "tokens": "dot.case",
+    "files": "kebab-case",
+    "email_subject": "Sentence case"
+  },
+  "file_structure": {
+    "templates": [
+      "email-template-downtime-notification.html",
+      "email-template-downtime-notification-plain.txt"
+    ],
+    "assets": [
+      "test-data-sample.json",
+      "email-preview-screenshots/"
+    ]
+  },
+  "metrics": {
+    "primary": "Email delivery rate and readability",
+    "secondary": [
+      "User comprehension of downtime information",
+      "Color coding effectiveness",
+      "Email client compatibility rate",
+      "Accessibility compliance score"
+    ],
+    "success_criteria": "100% email delivery rate, 100% email client compatibility, WCAG 2.2 AA compliance"
+  },
+  "assets": {
+    "illustration_style": "N/A (text-based email)",
+    "photo": "N/A",
+    "icon_set": "N/A",
+    "image_formats": "N/A (no images)",
+    "max_file_size": "50KB (HTML email)",
+    "color_palette": {
+      "current_week": "#90EE90 (Light Green)",
+      "next_week": "#006400 (Deep Green)",
+      "text_on_deep_green": "#FFFFFF"
+    }
+  }
+}
+
