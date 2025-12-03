@@ -151,8 +151,6 @@ Who Should Use This Tool?
 
 Ideal for:
 
-Campaign managers
-
 Operations teams
 
 IT service communication teams
