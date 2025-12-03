@@ -2,7 +2,7 @@
 
 ## Purpose & Audience
 
-The AI-Powered Downtime Notification Mailing System generates weekly HTML email notifications that inform system users about upcoming system downtimes. The email design must clearly communicate downtime schedules, distinguish between current week and next week items through visual color coding, and present information in a scannable, accessible format that works across all major email clients.
+The AI-Powered Downtime Notification Mailing System generates weekly draft email notifications that inform system users about upcoming system downtimes. The email design must clearly communicate downtime schedules, distinguish between current week and next week items through visual color coding, and present information in a scannable, accessible format that works across all major email clients.
 
 **Primary Audience:** System users who need to plan their tasks around system downtimes. These users receive the email every Monday and need to quickly understand which systems will be down and when.
 
