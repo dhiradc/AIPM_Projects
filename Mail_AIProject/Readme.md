@@ -1,6 +1,6 @@
 Overview
 
-The AI-Powered Automated Downtime Mailing System is an end-to-end automation tool designed to eliminate the manual effort required to prepare downtime-related email communications. Campaign managers and operations teams often spend hours extracting items from Excel sheets, calculating date windows, standardizing system names, and preparing email drafts.
+The AI-Powered Automated Downtime Mailing System is an end-to-end automation tool designed to eliminate the manual effort required to prepare downtime-related email communications. Release managers and operations teams often spend hours extracting items from Excel sheets, calculating date windows, standardizing system names, and preparing email drafts.
 
 This system automates the entire workflow — from reading the input files to generating polished .eml email drafts ready for review and sending.
 
